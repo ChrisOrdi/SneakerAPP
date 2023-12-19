@@ -5,17 +5,30 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class SneakerService {
 
     private final List<Sneaker> sneakerList = new ArrayList<>();
 
+    // Random generator for the ID since we dont have a db yet
+    private final Random random = new Random();
+
+
     // Return every sneaker / entry
     public List<Sneaker> getAllSneakers() {
          return new ArrayList<>(sneakerList);
     }
 
+    // add 1 sneaker
+    public Sneaker addSneaker(Sneaker sneaker) {
+        int randomId = random.nextInt(Integer.MAX_VALUE);
+        sneaker.setId(randomId);
+        sneakerList.add(sneaker); // Add transaction to the list, not calling on the transaction object
+        return sneaker;
+    }
+    // just to push
 
 
 }
