@@ -4,6 +4,8 @@ import com.sneakercity.sneakerstore.model.Sneaker;
 import com.sneakercity.sneakerstore.service.SneakerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -26,6 +28,8 @@ public class SneakerController {
     DELETE API calls
      */
 
+
+
     // GET API methods
     // Get every sneaker
 
@@ -33,6 +37,14 @@ public class SneakerController {
     public List<Sneaker> getAllSneakers() {
         return sneakerService.getAllSneakers();
     }
+
+    // POST API methods
+
+    @PostMapping("addASneaker")
+    public Sneaker addSneaker(@RequestBody Sneaker sneaker) {
+        return sneakerService.addSneaker(sneaker);
+    }
+
 
 
 
