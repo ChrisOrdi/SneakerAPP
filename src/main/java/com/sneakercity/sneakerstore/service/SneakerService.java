@@ -12,7 +12,8 @@ public class SneakerService {
 
     private final List<Sneaker> sneakerList = new ArrayList<>();
 
-    // Random generator for the ID since we dont have a db yet
+    // Random generator for the ID since we don't have a db yet
+
     private final Random random = new Random();
 
 
@@ -28,7 +29,4 @@ public class SneakerService {
         sneakerList.add(sneaker); // Add transaction to the list, not calling on the transaction object
         return sneaker;
     }
-    // just to push
-
-
 }

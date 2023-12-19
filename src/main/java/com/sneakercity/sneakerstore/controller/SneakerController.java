@@ -38,6 +38,7 @@ public class SneakerController {
         return sneakerService.getAllSneakers();
     }
 
+
     // POST API methods
 
     @PostMapping("addASneaker")
