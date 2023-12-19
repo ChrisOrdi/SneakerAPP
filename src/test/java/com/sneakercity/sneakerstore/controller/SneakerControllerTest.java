@@ -1,7 +1,10 @@
 package com.sneakercity.sneakerstore.controller;
 
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.OK;
 
 import com.sneakercity.sneakerstore.model.Sneaker;
 import com.sneakercity.sneakerstore.service.SneakerService;
@@ -10,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -56,7 +61,7 @@ public class SneakerControllerTest {
     }
 
     @Test
-    public void should_addSneakerTest() {
+     void should_addSneakerTest() {
         Sneaker newSneaker = new Sneaker(0, "New Balance", "574", "44", "Classic model", "Casual");
         when(sneakerService.addSneaker(any(Sneaker.class))).thenReturn(newSneaker);
 
@@ -69,7 +74,7 @@ public class SneakerControllerTest {
     }
 
     @Test
-    public void addSneakerInvalidInputTest() {
+     void addSneakerInvalidInputTest() {
         when(sneakerService.addSneaker(null)).thenThrow(new IllegalArgumentException("Invalid sneaker"));
 
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -77,5 +82,32 @@ public class SneakerControllerTest {
         });
 
         assertEquals("Invalid sneaker", exception.getMessage());
+    }
+
+    @Test
+    public void testUpdateSneaker_Success() {
+        int sneakerId = 1;
+        Sneaker updatedSneaker = new Sneaker(sneakerId, "Adidas", "UltraBoost", "43", "A comfortable running shoe", "Running");
+
+        when(sneakerService.updateSneaker(eq(sneakerId), any(Sneaker.class))).thenReturn(updatedSneaker);
+
+        ResponseEntity<Sneaker> response = sneakerController.updateSneaker(sneakerId, updatedSneaker);
+
+        assertNotNull(response);
+        assertEquals(OK, response.getStatusCode());
+        assertEquals(updatedSneaker, response.getBody());
+    }
+
+    @Test
+    public void testUpdateSneaker_NotFound() {
+        int sneakerId = 1;
+        Sneaker updatedSneaker = new Sneaker(sneakerId, "Adidas", "UltraBoost", "43", "A comfortable running shoe", "Running");
+
+        when(sneakerService.updateSneaker(eq(sneakerId), any(Sneaker.class))).thenReturn(null);
+
+        ResponseEntity<Sneaker> response = sneakerController.updateSneaker(sneakerId, updatedSneaker);
+
+        assertNotNull(response);
+        assertEquals(NOT_FOUND, response.getStatusCode());
     }
 }

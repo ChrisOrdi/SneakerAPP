@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class SneakerServiceTest {
 
     private SneakerService sneakerService;
+    private int initialSneakerId;
 
     @BeforeEach
     void setup(){
@@ -43,5 +44,23 @@ class SneakerServiceTest {
         Sneaker adddedSneaker = sneakerService.addSneaker(sneaker);
         assertNotEquals(0, adddedSneaker.getId());
         assertTrue(sneakerService.getAllSneakers().contains(adddedSneaker));
+    }
+
+    @Test
+    void shouldUpdateSneakerDetails() {
+        // Create a new sneaker object with the updated details
+        Sneaker initialSneaker = new Sneaker(0, "Brand D","Nike","45","Description D", "Category D");
+        initialSneaker = sneakerService.addSneaker(initialSneaker);
+        initialSneakerId = initialSneaker.getId();
+        Sneaker updatedSneaker = new Sneaker(1,"Adidas","testSchoennaam","42","test 2", " test3");
+
+        // Update the sneaker in the service
+        Sneaker resultSneaker = sneakerService.updateSneaker(initialSneaker.getId(), updatedSneaker);
+        assertEquals("Adidas", resultSneaker.getMerk());
+        assertEquals("testSchoennaam", resultSneaker.getSchoennaam());
+        assertEquals("42", resultSneaker.getSchoenmaat());
+
+        // Assert that the ID remains unchanged
+        assertEquals(initialSneakerId, resultSneaker.getId());
     }
 }

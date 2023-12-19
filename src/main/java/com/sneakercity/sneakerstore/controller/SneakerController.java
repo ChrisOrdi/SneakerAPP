@@ -3,10 +3,8 @@ package com.sneakercity.sneakerstore.controller;
 import com.sneakercity.sneakerstore.model.Sneaker;
 import com.sneakercity.sneakerstore.service.SneakerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -47,6 +45,17 @@ public class SneakerController {
     }
 
 
+    // PUT API methods
+    @PutMapping("/updateASneaker")
+    public ResponseEntity<Sneaker> updateSneaker(@PathVariable int id, @RequestBody Sneaker sneaker)
+    {
+        Sneaker updatedSneaker = sneakerService.updateSneaker(id, sneaker);
+        if (updatedSneaker == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(updatedSneaker);
+
+    }
 
 
 }
