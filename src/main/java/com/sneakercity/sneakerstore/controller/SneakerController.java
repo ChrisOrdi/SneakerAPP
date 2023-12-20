@@ -3,6 +3,7 @@ package com.sneakercity.sneakerstore.controller;
 import com.sneakercity.sneakerstore.model.Sneaker;
 import com.sneakercity.sneakerstore.service.SneakerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,13 +29,17 @@ public class SneakerController {
      */
 
 
-
     // GET API methods
     // Get every sneaker
 
     @GetMapping("/getAllSneakers")
     public List<Sneaker> getAllSneakers() {
         return sneakerService.getAllSneakers();
+    }
+
+    @GetMapping("/getASneaker")
+    public Sneaker getASneaker(@RequestParam int id) {
+        return sneakerService.getSneakerById(id);
     }
 
 
@@ -48,8 +53,7 @@ public class SneakerController {
 
     // PUT API methods
     @PutMapping("/updateASneaker")
-    public ResponseEntity<Sneaker> updateSneaker(@PathVariable int id, @RequestBody Sneaker sneaker)
-    {
+    public ResponseEntity<Sneaker> updateSneaker(@PathVariable int id, @RequestBody Sneaker sneaker) {
         Sneaker updatedSneaker = sneakerService.updateSneaker(id, sneaker);
         if (updatedSneaker == null) {
             return ResponseEntity.notFound().build();
@@ -57,27 +61,26 @@ public class SneakerController {
         return ResponseEntity.ok(updatedSneaker);
 
     }
-
-    /*
-    @DeleteMapping("/{transactionId}")
-    public ResponseEntity<Void> deleteTransaction(@PathVariable int transactionId) {
-        Optional<Transaction> deletedTranscation = transactionService.deleteTranscation(transactionId);
-        if( deletedTranscation.isPresent()) { // if the trans action is present, return code 200
-            return ResponseEntity.ok().build();
-        } else { // else return error 400
-            return ResponseEntity.notFound().build();
-        }
-    }
-     */
-
     // DELETE API methods
- //   @DeleteMapping("/deleteASneaker")
+//    @DeleteMapping("/deleteASneaker")
 //    public ResponseEntity<Void> deleteASneaker(@PathVariable int sneakerId) {
-//        Optional<Sneaker> deletedSneaker = sneakerService.removeSneaker(sneakerId);
+//        Optional<Sneaker> deletedSneaker = sneakerService.deleteSneaker(sneakerId);
 //        if (deletedSneaker.isPresent()) { // if the sneaker is present, return code 200
 //            return ResponseEntity.ok().build();
 //        } else {
 //            return ResponseEntity.notFound().build();
 //        }
-  //  }
+//    }
+
+    @DeleteMapping("/deleteSneaker")
+    public ResponseEntity<?> deleteSneaker(@RequestParam int id) {
+        boolean isDeleted = sneakerService.deleteSneaker(id);
+        if (isDeleted) {
+            return ResponseEntity.ok().body("Sneaker deleted successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sneaker not found with ID: " + id);
+        }
+    }
+
+
 }

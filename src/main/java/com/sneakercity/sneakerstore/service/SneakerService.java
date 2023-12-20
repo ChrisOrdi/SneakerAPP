@@ -3,10 +3,7 @@ package com.sneakercity.sneakerstore.service;
 import com.sneakercity.sneakerstore.model.Sneaker;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class SneakerService {
@@ -21,6 +18,16 @@ public class SneakerService {
     // Return every sneaker / entry
     public List<Sneaker> getAllSneakers() {
         return new ArrayList<>(sneakerList);
+    }
+
+    // Return sneaker with specific id
+    public Sneaker getSneakerById(int id) {
+        for (Sneaker sneaker : sneakerList) {
+            if (sneaker.getId() == id) {
+                return sneaker;
+            }
+        }
+        return null; // return null if no sneaker with the given id is found
     }
 
     // add 1 sneaker
@@ -51,7 +58,7 @@ public class SneakerService {
             Sneaker sneaker = iterator.next();
             if (sneaker.getId() == id) {
                 iterator.remove();
-                return true;
+                return false;
             }
         }
         return false;

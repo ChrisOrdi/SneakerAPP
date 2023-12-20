@@ -114,4 +114,35 @@ import java.util.List;
         assertNotNull(response);
         assertEquals(NOT_FOUND, response.getStatusCode());
     }
+
+    @Test
+    void shouldAddMultipleSneakers() {
+        Sneaker newSneaker = new Sneaker(0, "New Balance", "574", "44", "Classic model", "Casual");
+        Sneaker newSneaker2 = new Sneaker(1, "New Balance", "574", "44", "Classic model", "Casual");
+        Sneaker newSneaker3 = new Sneaker(2, "New Balance", "974", "44", "Classic model", "Casual");
+
+        when(sneakerService.addSneaker(any(Sneaker.class))).thenReturn(sneaker);
+
+
+    }
+    @Test
+    void shouldGetASneaker() {
+
+        Sneaker newSneaker = new Sneaker(0, "New Balance", "574", "44", "Classic model", "Casual");
+        when(sneakerService.addSneaker(any(Sneaker.class))).thenReturn(newSneaker);
+
+        Sneaker addedSneaker = sneakerController.addSneaker(newSneaker);
+        assertNotNull(addedSneaker);
+        assertEquals("New Balance", addedSneaker.getMerk());
+        assertEquals("574", addedSneaker.getSchoennaam());
+
+        verify(sneakerService, times(1)).addSneaker(any(Sneaker.class));
+    }
+
+
+
+
+
+
+
 }

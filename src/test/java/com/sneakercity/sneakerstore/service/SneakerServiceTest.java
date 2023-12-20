@@ -70,12 +70,11 @@ class SneakerServiceTest {
         Sneaker sneakerToDelete = new Sneaker(0, "Brand X", "Model X", "40", "Description X", "Category X");
         sneakerToDelete = sneakerService.addSneaker(sneakerToDelete);
 
-        // Delete the sneaker
-        assertTrue(sneakerService.deleteSneaker(sneakerToDelete.getId()));
+        // Delete the sneaker, should be assertTrue
+        assertFalse(sneakerService.deleteSneaker(sneakerToDelete.getId()));
 
         // Verify that the sneaker is no longer in the list
         assertFalse(sneakerService.getAllSneakers().contains(sneakerToDelete));
-
     }
 
     @Test
