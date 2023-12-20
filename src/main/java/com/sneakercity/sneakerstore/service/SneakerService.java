@@ -80,4 +80,16 @@ public class SneakerService {
     public List<Sneaker> getLatestSneakers(Integer limit) {
         return null;
     }
+
+    public List<Sneaker> getSneakersSortedByPrice(String order) {
+        return null;
+    }
+
+    public List<Sneaker> searchSneakers(String keyword) {
+        return null;
+    }
+
+    public List<Sneaker> getSneakersBySize(int size) {
+        return null;
+    }
 }

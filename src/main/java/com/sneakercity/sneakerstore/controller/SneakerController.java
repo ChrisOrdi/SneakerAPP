@@ -61,6 +61,27 @@ public class SneakerController {
         return sneakerService.getLatestSneakers(limit);
     }
 
+    // get sneakers sorted by price
+    @GetMapping("/sneakers/sortedByPrice")
+    public List<Sneaker> getSneakersSortedByPrice(@RequestParam String order) {
+        return sneakerService.getSneakersSortedByPrice(order);
+    }
+
+
+    // search sneakers by keyword
+    @GetMapping("/sneakers/search")
+    public List<Sneaker> searchSneakers(@RequestParam String keyword) {
+        return sneakerService.searchSneakers(keyword);
+    }
+
+    @GetMapping("/sneakers/bySize")
+    public List<Sneaker> getSneakersBySize(@RequestParam int size) {
+        return sneakerService.getSneakersBySize(size);
+    }
+
+
+
+
 
     // POST API methods
 
