@@ -96,7 +96,7 @@ class SneakerServiceTest {
     }
 
     @Test
-    public void getSneakerById_NonExistingId_ReturnsNull() {
+     void getSneakerById_NonExistingId_ReturnsNull() {
         // Given
         int id = 3; // An ID not in the list
 
@@ -106,4 +106,5 @@ class SneakerServiceTest {
         // Then
         assertNull(found);
     }
+
 }

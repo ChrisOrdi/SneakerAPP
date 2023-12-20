@@ -64,4 +64,20 @@ public class SneakerService {
         return false;
     }
 
+    public List<Sneaker> filterSneakers(String brand, String color, Double minPrice, Double maxPrice, Integer size) {
+    return null;
+    }
+
+    public List<Sneaker> getSneakersByBrand(String brand) {
+        return null;
+    }
+
+
+    public List<Sneaker> addMultipleSneakers(List<Sneaker> sneakers) {
+        return null;
+    }
+
+    public List<Sneaker> getLatestSneakers(Integer limit) {
+        return null;
+    }
 }
