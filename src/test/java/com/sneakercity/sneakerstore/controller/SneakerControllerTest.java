@@ -24,6 +24,8 @@ public class SneakerControllerTest {
     @Mock
     private SneakerService sneakerService;
 
+    private Sneaker sneaker;
+
     @InjectMocks
     private SneakerController sneakerController;
 
@@ -37,6 +39,8 @@ public class SneakerControllerTest {
 
         mockSneakers = Arrays.asList(sneaker1, sneaker2);
         when(sneakerService.getAllSneakers()).thenReturn(mockSneakers);
+        sneaker = new Sneaker(1, "Nike", "AirMax", "42", "Description", "Sports");
+        sneakerService.addSneaker(sneaker);
     }
 
     // The getAllSneakersTest method checks not only that the list is not null and has the correct

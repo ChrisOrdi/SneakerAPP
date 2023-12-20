@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class SneakerController {
@@ -57,5 +58,26 @@ public class SneakerController {
 
     }
 
+    /*
+    @DeleteMapping("/{transactionId}")
+    public ResponseEntity<Void> deleteTransaction(@PathVariable int transactionId) {
+        Optional<Transaction> deletedTranscation = transactionService.deleteTranscation(transactionId);
+        if( deletedTranscation.isPresent()) { // if the trans action is present, return code 200
+            return ResponseEntity.ok().build();
+        } else { // else return error 400
+            return ResponseEntity.notFound().build();
+        }
+    }
+     */
 
+    // DELETE API methods
+ //   @DeleteMapping("/deleteASneaker")
+//    public ResponseEntity<Void> deleteASneaker(@PathVariable int sneakerId) {
+//        Optional<Sneaker> deletedSneaker = sneakerService.removeSneaker(sneakerId);
+//        if (deletedSneaker.isPresent()) { // if the sneaker is present, return code 200
+//            return ResponseEntity.ok().build();
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
+  //  }
 }

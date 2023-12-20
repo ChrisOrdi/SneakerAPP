@@ -63,4 +63,23 @@ class SneakerServiceTest {
         // Assert that the ID remains unchanged
         assertEquals(initialSneakerId, resultSneaker.getId());
     }
+
+    @Test
+    void shouldDeleteSneakerById() {
+        // Add a sneaker to delete
+        Sneaker sneakerToDelete = new Sneaker(0, "Brand X", "Model X", "40", "Description X", "Category X");
+        sneakerToDelete = sneakerService.addSneaker(sneakerToDelete);
+
+        // Delete the sneaker
+        assertTrue(sneakerService.deleteSneaker(sneakerToDelete.getId()));
+
+        // Verify that the sneaker is no longer in the list
+        assertFalse(sneakerService.getAllSneakers().contains(sneakerToDelete));
+
+    }
+
+    @Test
+    void shouldReturnFalseWhenDeletingNonExistentSneaker() {
+        assertFalse(sneakerService.deleteSneaker(-1)); // Assuming -1 is an invalid ID
+    }
 }

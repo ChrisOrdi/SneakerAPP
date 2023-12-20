@@ -4,6 +4,7 @@ import com.sneakercity.sneakerstore.model.Sneaker;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -44,5 +45,16 @@ public class SneakerService {
         return null;
     }
 
+    public boolean deleteSneaker(int id) {
+        Iterator<Sneaker> iterator = sneakerList.iterator();
+        while (iterator.hasNext()) {
+            Sneaker sneaker = iterator.next();
+            if (sneaker.getId() == id) {
+                iterator.remove();
+                return true;
+            }
+        }
+        return false;
+    }
 
 }
