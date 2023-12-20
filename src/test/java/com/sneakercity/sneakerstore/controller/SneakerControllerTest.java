@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @SpringBootTest
-public class SneakerControllerTest {
+ class SneakerControllerTest {
 
     @Mock
     private SneakerService sneakerService;
@@ -89,7 +89,7 @@ public class SneakerControllerTest {
     }
 
     @Test
-    public void testUpdateSneaker_Success() {
+     void testUpdateSneaker_Success() {
         int sneakerId = 1;
         Sneaker updatedSneaker = new Sneaker(sneakerId, "Adidas", "UltraBoost", "43", "A comfortable running shoe", "Running");
 
@@ -103,7 +103,7 @@ public class SneakerControllerTest {
     }
 
     @Test
-    public void testUpdateSneaker_NotFound() {
+     void testUpdateSneaker_NotFound() {
         int sneakerId = 1;
         Sneaker updatedSneaker = new Sneaker(sneakerId, "Adidas", "UltraBoost", "43", "A comfortable running shoe", "Running");
 
