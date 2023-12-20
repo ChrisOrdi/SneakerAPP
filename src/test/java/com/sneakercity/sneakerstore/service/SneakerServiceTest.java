@@ -81,4 +81,29 @@ class SneakerServiceTest {
     void shouldReturnFalseWhenDeletingNonExistentSneaker() {
         assertFalse(sneakerService.deleteSneaker(-1)); // Assuming -1 is an invalid ID
     }
+
+    @Test
+    public void getSneakerById_ExistingId_ReturnsSneaker() {
+        // Given
+        int id = 1;
+
+        // When
+        Sneaker found = sneakerService.getSneakerById(id);
+
+        // Then
+        assertNotNull(found);
+        assertEquals(id, found.getId());
+    }
+
+    @Test
+    public void getSneakerById_NonExistingId_ReturnsNull() {
+        // Given
+        int id = 3; // An ID not in the list
+
+        // When
+        Sneaker found = sneakerService.getSneakerById(id);
+
+        // Then
+        assertNull(found);
+    }
 }

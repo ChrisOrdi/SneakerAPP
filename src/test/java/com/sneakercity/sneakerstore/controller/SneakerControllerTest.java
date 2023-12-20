@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Arrays;
@@ -137,6 +138,36 @@ import java.util.List;
         assertEquals("574", addedSneaker.getSchoennaam());
 
         verify(sneakerService, times(1)).addSneaker(any(Sneaker.class));
+    }
+
+    @Test
+    void shouldDeleteASneaker() {
+        // Arrange
+        int id = 1;
+        when(sneakerService.deleteSneaker(id)).thenReturn(true);
+
+        // Act
+        ResponseEntity<?> response = sneakerController.deleteSneaker(id);
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("Sneaker deleted successfully.", response.getBody());
+        verify(sneakerService).deleteSneaker(id);
+    }
+
+    @Test
+    public void testDeleteSneaker_NotFound() {
+        // Arrange
+        int id = 2;
+        when(sneakerService.deleteSneaker(id)).thenReturn(false);
+
+        // Act
+        ResponseEntity<?> response = sneakerController.deleteSneaker(id);
+
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals("Sneaker not found with ID: " + id, response.getBody());
+        verify(sneakerService).deleteSneaker(id);
     }
 
 
