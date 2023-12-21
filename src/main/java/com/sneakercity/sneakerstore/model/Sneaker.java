@@ -3,6 +3,8 @@ package com.sneakercity.sneakerstore.model;
 public class Sneaker {
 
     private int id; // misschien aanpassen naar double of uuid
+
+    private double price;
     private String merk;
     private String schoennaam;
 
@@ -11,6 +13,8 @@ public class Sneaker {
     private String beschrijving;
 
     private String categorie;
+
+    private String color;
 
 
     // No args constructor
@@ -55,6 +59,13 @@ public class Sneaker {
         return categorie;
     }
 
+    public double getPrice() {
+        return price;
+    }
+
+    public String getColor() {
+        return color;
+    }
 
     //Setters
 
@@ -80,5 +91,13 @@ public class Sneaker {
 
     public void setCategorie(String categorie) {
         this.categorie = categorie;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }
