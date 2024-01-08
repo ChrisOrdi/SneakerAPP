@@ -1,0 +1,10 @@
+version: "3.8"
+services:
+  db:
+    image: postgres:16.1
+    ports:
+      - "4573:5432" #5432 is de default postgres port in de container
+    environment:
+      POSTGRES_DB: SneakerCityDB
+      POSTGRES_USER: sc
+      POSTGRES_PASSWORD: sneakerdb
