@@ -27,7 +27,12 @@ public class SneakerController {
         return sneakerService.getAllSneakers();
     }
 
+    @GetMapping("/getAllSneakerFromDB")
+    public List<Sneaker> getAllSneakersFromDB() {
+        return sneakerService.getAllSneakers();
+    }
 
+/*
     // Get a sneaker
     @GetMapping("/getASneaker")
     public Sneaker getASneaker(@RequestParam int id) {
@@ -121,6 +126,8 @@ public class SneakerController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sneaker not found with ID: " + id);
         }
     }
+
+ */
 
 
 
