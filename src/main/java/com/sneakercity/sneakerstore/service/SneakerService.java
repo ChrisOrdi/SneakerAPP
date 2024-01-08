@@ -29,6 +29,55 @@ public class SneakerService {
     public List<Sneaker> getAllSneakers() {
         return sneakerRepository.findAll();
     }
+
+    // Return sneaker with specific id
+    public Optional<Sneaker> getSneakerById(UUID id) {
+        return sneakerRepository.findById(id);
+    }
+
+    // Add 1 sneaker
+    public Sneaker addSneaker(Sneaker sneaker) {
+        return sneakerRepository.save(sneaker);
+    }
+
+    // Update 1 sneaker
+    public Optional<Sneaker> updateSneaker(UUID id, Sneaker updatedSneaker) {
+        return sneakerRepository.findById(id)
+                .map(sneaker -> {
+                    sneaker.setMerk(updatedSneaker.getMerk());
+                    sneaker.setSchoennaam(updatedSneaker.getSchoennaam());
+                    sneaker.setSchoenmaat(updatedSneaker.getSchoenmaat());
+                    sneaker.setBeschrijving(updatedSneaker.getBeschrijving());
+                    sneaker.setCategorie(updatedSneaker.getCategorie());
+                    sneaker.setPrice(updatedSneaker.getPrice());
+                    sneaker.setColor(updatedSneaker.getColor());
+                    return sneakerRepository.save(sneaker);
+                });
+    }
+
+    // Delete 1 sneaker
+    public boolean deleteSneaker(UUID id) {
+        if (sneakerRepository.existsById(id)) {
+            sneakerRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+    // Add multiple sneakers
+    public List<Sneaker> addMultipleSneakers(List<Sneaker> sneakers) {
+        return sneakerRepository.saveAll(sneakers);
+    }
+
+    public List<Sneaker> filterSneakers(String brand, String color, Double minPrice, Double maxPrice, Integer size) {
+        return sneakerList.stream()
+                .filter(sneaker -> (brand == null || sneaker.getMerk().equalsIgnoreCase(brand)) &&
+                        (color == null || sneaker.getColor().equalsIgnoreCase(color)) &&
+                        (minPrice == null || sneaker.getPrice() >= minPrice) &&
+                        (maxPrice == null || sneaker.getPrice() <= maxPrice) &&
+                        (size == null || sneaker.getSchoenmaat().equals(size.toString())))
+                .collect(Collectors.toList());
+    }
     /*
 
     // Return sneaker with specific id
@@ -75,15 +124,7 @@ public class SneakerService {
         return false;
     }
 
-    public List<Sneaker> filterSneakers(String brand, String color, Double minPrice, Double maxPrice, Integer size) {
-        return sneakerList.stream()
-                .filter(sneaker -> (brand == null || sneaker.getMerk().equalsIgnoreCase(brand)) &&
-                        (color == null || sneaker.getColor().equalsIgnoreCase(color)) &&
-                        (minPrice == null || sneaker.getPrice() >= minPrice) &&
-                        (maxPrice == null || sneaker.getPrice() <= maxPrice) &&
-                        (size == null || sneaker.getSchoenmaat().equals(size.toString())))
-                .collect(Collectors.toList());
-    }
+
 
     public List<Sneaker> getSneakersByBrand(String brand) {
         return null;
