@@ -78,6 +78,7 @@ public class SneakerService {
                         (size == null || sneaker.getSchoenmaat().equals(size.toString())))
                 .collect(Collectors.toList());
     }
+
     /*
 
     // Return sneaker with specific id
