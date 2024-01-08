@@ -1,12 +1,22 @@
 package com.sneakercity.sneakerstore.service;
 
 import com.sneakercity.sneakerstore.model.Sneaker;
+import com.sneakercity.sneakerstore.repository.SneakerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class SneakerService {
+
+    private final SneakerRepository sneakerRepository;
+
+    @Autowired
+    public SneakerService(SneakerRepository sneakerRepository) {
+        this.sneakerRepository = sneakerRepository;
+    }
 
     private final List<Sneaker> sneakerList = new ArrayList<>();
 
@@ -17,8 +27,9 @@ public class SneakerService {
 
     // Return every sneaker / entry
     public List<Sneaker> getAllSneakers() {
-        return new ArrayList<>(sneakerList);
+        return sneakerRepository.findAll();
     }
+    /*
 
     // Return sneaker with specific id
     public Sneaker getSneakerById(int id) {
@@ -63,5 +74,59 @@ public class SneakerService {
         }
         return false;
     }
+
+    public List<Sneaker> filterSneakers(String brand, String color, Double minPrice, Double maxPrice, Integer size) {
+        return sneakerList.stream()
+                .filter(sneaker -> (brand == null || sneaker.getMerk().equalsIgnoreCase(brand)) &&
+                        (color == null || sneaker.getColor().equalsIgnoreCase(color)) &&
+                        (minPrice == null || sneaker.getPrice() >= minPrice) &&
+                        (maxPrice == null || sneaker.getPrice() <= maxPrice) &&
+                        (size == null || sneaker.getSchoenmaat().equals(size.toString())))
+                .collect(Collectors.toList());
+    }
+
+    public List<Sneaker> getSneakersByBrand(String brand) {
+        return null;
+    }
+
+
+    public List<Sneaker> addMultipleSneakers(List<Sneaker> sneakers) {
+        for (Sneaker sneaker : sneakers) {
+            addSneaker(sneaker); // Reuse the addSneaker method
+        }
+        return sneakers;
+    }
+
+    public List<Sneaker> getLatestSneakers(Integer limit) {
+        return sneakerList.stream()
+                .sorted(Comparator.comparingInt(Sneaker::getId).reversed()) // Assuming higher IDs are newer
+                .limit(limit != null ? limit : sneakerList.size())
+                .collect(Collectors.toList());
+    }
+
+    public List<Sneaker> getSneakersSortedByPrice(String order) {
+        // Assuming you add a price property to Sneaker class
+        return sneakerList.stream()
+                .sorted(order.equalsIgnoreCase("desc") ?
+                        Comparator.comparingDouble(Sneaker::getPrice).reversed() :
+                        Comparator.comparingDouble(Sneaker::getPrice))
+                .collect(Collectors.toList());
+    }
+
+    public List<Sneaker> searchSneakers(String keyword) {
+        return sneakerList.stream()
+                .filter(sneaker -> sneaker.getMerk().contains(keyword) ||
+                        sneaker.getSchoennaam().contains(keyword) ||
+                        sneaker.getBeschrijving().contains(keyword))
+                .collect(Collectors.toList());
+    }
+
+    public List<Sneaker> getSneakersBySize(int size) {
+        return sneakerList.stream()
+                .filter(sneaker -> sneaker.getSchoenmaat().equals(String.valueOf(size)))
+                .collect(Collectors.toList());
+    }
+    */
+
 
 }

@@ -1,9 +1,23 @@
 package com.sneakercity.sneakerstore.model;
 
+import jakarta.persistence.*;
+
+import java.util.UUID;
+
+@Entity
 public class Sneaker {
 
-    private int id; // misschien aanpassen naar double of uuid
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id; // misschien aanpassen naar double of uuid
+
+    @Column(nullable = false)
+    private double price;
+    @Column(nullable = false)
     private String merk;
+    @Column(nullable = false)
     private String schoennaam;
 
     private String schoenmaat; // is dit string of int?
@@ -11,6 +25,8 @@ public class Sneaker {
     private String beschrijving;
 
     private String categorie;
+
+    private String color;
 
 
     // No args constructor
@@ -20,7 +36,7 @@ public class Sneaker {
 
     // all args constructor
 
-    public Sneaker(int id, String merk, String schoennaam, String schoenmaat, String beschrijving, String categorie) {
+    public Sneaker(UUID id, String merk, String schoennaam, String schoenmaat, String beschrijving, String categorie) {
         this.id = id;
         this.merk = merk;
         this.schoennaam = schoennaam;
@@ -31,7 +47,7 @@ public class Sneaker {
 
     // Getters
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -55,10 +71,17 @@ public class Sneaker {
         return categorie;
     }
 
+    public double getPrice() {
+        return price;
+    }
+
+    public String getColor() {
+        return color;
+    }
 
     //Setters
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -80,5 +103,13 @@ public class Sneaker {
 
     public void setCategorie(String categorie) {
         this.categorie = categorie;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }

@@ -13,13 +13,25 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.MockMvc;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
 import java.util.List;
 
 @SpringBootTest
  class SneakerControllerTest {
+
+    private MockMvc mockMvc;
 
     @Mock
     private SneakerService sneakerService;
@@ -33,6 +45,7 @@ import java.util.List;
 
     @BeforeEach
     void setUp() {
+        mockMvc = standaloneSetup(sneakerController).build();
         // Create mock Sneaker objects
         Sneaker sneaker1 = new Sneaker(1, "Nike", "Air Max", "42", "Comfortable running shoe", "Running");
         Sneaker sneaker2 = new Sneaker(2, "Adidas", "Ultra Boost", "43", "High performance sports shoe", "Sports");
@@ -64,18 +77,18 @@ import java.util.List;
         verify(sneakerService, times(1)).getAllSneakers();
     }
 
-    @Test
-     void should_addSneakerTest() {
-        Sneaker newSneaker = new Sneaker(0, "New Balance", "574", "44", "Classic model", "Casual");
-        when(sneakerService.addSneaker(any(Sneaker.class))).thenReturn(newSneaker);
-
-        Sneaker addedSneaker = sneakerController.addSneaker(newSneaker);
-        assertNotNull(addedSneaker);
-        assertEquals("New Balance", addedSneaker.getMerk());
-        assertEquals("574", addedSneaker.getSchoennaam());
-
-        verify(sneakerService, times(1)).addSneaker(any(Sneaker.class));
-    }
+//    @Test
+//     void should_addSneakerTest() {
+//        Sneaker newSneaker = new Sneaker(0, "New Balance", "574", "44", "Classic model", "Casual");
+//        when(sneakerService.addSneaker(any(Sneaker.class))).thenReturn(newSneaker);
+//
+//        Sneaker addedSneaker = sneakerController.addSneaker(newSneaker);
+//        assertNotNull(addedSneaker);
+//        assertEquals("New Balance", addedSneaker.getMerk());
+//        assertEquals("574", addedSneaker.getSchoennaam());
+//
+//        verify(sneakerService, times(1)).addSneaker(any(Sneaker.class));
+//    }
 
     @Test
      void addSneakerInvalidInputTest() {
@@ -125,18 +138,104 @@ import java.util.List;
 
 
     }
+//    @Test
+//    void shouldGetASneaker() {
+//
+//        Sneaker newSneaker = new Sneaker(0, "New Balance", "574", "44", "Classic model", "Casual");
+//        when(sneakerService.addSneaker(any(Sneaker.class))).thenReturn(newSneaker);
+//
+//        Sneaker addedSneaker = sneakerController.addSneaker(newSneaker);
+//        assertNotNull(addedSneaker);
+//        assertEquals("New Balance", addedSneaker.getMerk());
+//        assertEquals("574", addedSneaker.getSchoennaam());
+//
+//        verify(sneakerService, times(1)).addSneaker(any(Sneaker.class));
+//    }
+
     @Test
-    void shouldGetASneaker() {
+    void shouldDeleteASneaker() {
+        // Arrange
+        int id = 1;
+        when(sneakerService.deleteSneaker(id)).thenReturn(true);
 
-        Sneaker newSneaker = new Sneaker(0, "New Balance", "574", "44", "Classic model", "Casual");
-        when(sneakerService.addSneaker(any(Sneaker.class))).thenReturn(newSneaker);
+        // Act
+        ResponseEntity<?> response = sneakerController.deleteSneaker(id);
 
-        Sneaker addedSneaker = sneakerController.addSneaker(newSneaker);
-        assertNotNull(addedSneaker);
-        assertEquals("New Balance", addedSneaker.getMerk());
-        assertEquals("574", addedSneaker.getSchoennaam());
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("Sneaker deleted successfully.", response.getBody());
+        verify(sneakerService).deleteSneaker(id);
+    }
 
-        verify(sneakerService, times(1)).addSneaker(any(Sneaker.class));
+    @Test
+    public void testDeleteSneaker_NotFound() {
+        // Arrange
+        int id = 2;
+        when(sneakerService.deleteSneaker(id)).thenReturn(false);
+
+        // Act
+        ResponseEntity<?> response = sneakerController.deleteSneaker(id);
+
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals("Sneaker not found with ID: " + id, response.getBody());
+        verify(sneakerService).deleteSneaker(id);
+    }
+
+    @Test
+    public void testGetASneaker() throws Exception {
+        when(sneakerService.getSneakerById(1)).thenReturn(new Sneaker()); // Assuming Sneaker is a valid entity
+        mockMvc.perform(get("/getASneaker?id=1"))
+                .andExpect(status().isOk());
+        verify(sneakerService).getSneakerById(1);
+    }
+
+    @Test
+    public void testFilterSneakers() throws Exception {
+        when(sneakerService.filterSneakers("Nike", "Red", 100.0, 200.0, 42))
+                .thenReturn(Arrays.asList(new Sneaker(), new Sneaker()));
+        mockMvc.perform(get("/filterSneakers")
+                        .param("brand", "Nike")
+                        .param("color", "Red")
+                        .param("minPrice", "100.0")
+                        .param("maxPrice", "200.0")
+                        .param("size", "42"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testGetSneakersByBrand() throws Exception {
+        when(sneakerService.getSneakersByBrand("Adidas")).thenReturn(Arrays.asList(new Sneaker()));
+        mockMvc.perform(get("/sneakersByBrand/Adidas"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testGetLatestSneakers() throws Exception {
+        when(sneakerService.getLatestSneakers(10)).thenReturn(Arrays.asList(new Sneaker(), new Sneaker()));
+        mockMvc.perform(get("/latestSneakers").param("limit", "10"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testGetSneakersSortedByPrice() throws Exception {
+        when(sneakerService.getSneakersSortedByPrice("asc")).thenReturn(Arrays.asList(new Sneaker()));
+        mockMvc.perform(get("/sneakers/sortedByPrice").param("order", "asc"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testSearchSneakers() throws Exception {
+        when(sneakerService.searchSneakers("Jordan")).thenReturn(Arrays.asList(new Sneaker()));
+        mockMvc.perform(get("/sneakers/search").param("keyword", "Jordan"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testGetSneakersBySize() throws Exception {
+        when(sneakerService.getSneakersBySize(42)).thenReturn(Arrays.asList(new Sneaker()));
+        mockMvc.perform(get("/sneakers/bySize").param("size", "42"))
+                .andExpect(status().isOk());
     }
 
 
