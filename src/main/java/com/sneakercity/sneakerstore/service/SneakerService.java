@@ -116,4 +116,5 @@ public class SneakerService {
                 .filter(sneaker -> sneaker.getSchoenmaat().equals(String.valueOf(size)))
                 .collect(Collectors.toList());
     }
+
 }
