@@ -1,6 +1,9 @@
 package com.sneakercity.sneakerstore.model;
 
+import jakarta.persistence.Entity;
+
 import java.util.List;
+
 
 public class Collection {
 
