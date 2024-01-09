@@ -3,6 +3,8 @@ package com.sneakercity.sneakerstore.model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class SneakerTest {
@@ -10,7 +12,8 @@ class SneakerTest {
 
     @BeforeEach
     public void setUp() {
-        sneaker = new Sneaker(1, "Nike", "Air Max", "42", "A classic sneaker", "Running");
+        UUID sneakerId1 = UUID.randomUUID();
+        sneaker = new Sneaker(sneakerId1, "Nike", "Air Max", "42", "A classic sneaker", "Running");
     }
 
     @Test
@@ -25,7 +28,7 @@ class SneakerTest {
 
     @Test
     public void testSetters() {
-        sneaker.setId(2);
+        sneaker.setId(UUID.randomUUID());
         sneaker.setMerk("Adidas");
         sneaker.setSchoennaam("UltraBoost");
         sneaker.setSchoenmaat("43");
