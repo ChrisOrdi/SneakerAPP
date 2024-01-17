@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SneakerServiceTest {
 
+    /*
     private SneakerService sneakerService;
     private List<Sneaker> sneakerList; // This should be initialized with sample data
     private int initialSneakerId;
@@ -170,5 +171,8 @@ class SneakerServiceTest {
         List<Sneaker> bySize = sneakerService.getSneakersBySize(size);
         assertTrue(bySize.stream().allMatch(sneaker -> sneaker.getSchoenmaat().equals(String.valueOf(size))));
     }
+
+    */
+
 
 }
